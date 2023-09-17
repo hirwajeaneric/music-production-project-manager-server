@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
             message: '{VALUE} is not supported as a user role.'
         }
     },
-    company: { 
+    group: { 
         type: String, 
         trim: true, 
         required: false,

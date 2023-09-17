@@ -33,7 +33,7 @@ const signIn = async (req, res) => {
             alias: user.alias,
             phone: user.phone,
             role: user.role,
-            company: user.company,
+            group: user.group,
             token
         }
     })
@@ -64,11 +64,48 @@ const signUp = async (req, res) => {
             alias: user.alias,
             phone: user.phone,
             role: user.role,
-            company: user.company,
+            group: user.group,
             token
         }
     })
+};
 
+const createAccountForUser = async (req, res) => {
+    var newPassword = req.body.password;
+    // Checking if the user is not already registered
+    const userExists = await User.findOne({ email: req.body.email })
+    if (userExists) {
+        res.status(StatusCodes.CREATED).json({
+            user: {
+                id: userExists._id,
+                email: userExists.email,
+                fullName: userExists.fullName,
+                role: userExists.role,
+                group: userExists.group,
+            }
+        })
+    } else {
+        // Validate password
+        const schema = Joi.object({
+            password: passwordComplexity().required().label('Password'),
+        })
+        const {error} = schema.validate({ password: req.body.password });
+        if (error) { return res.status(StatusCodes.BAD_REQUEST).send({ msg: error.details[0].message }) }
+
+        // Registering the user
+        const user = await User.create({...req.body});
+
+        res.status(StatusCodes.CREATED).json({
+            user: {
+                id: user._id,
+                email: user.email,
+                fullName: user.fullName,
+                role: user.role,
+                password: newPassword,
+                group: user.group,
+            }
+        })
+    }
 };
 
 const getUsers = async(req, res, next) => {
@@ -124,7 +161,7 @@ const updateUser = async(req, res, next) => {
             alias: updatedUser.alias,
             phone: updatedUser.phone,
             role: updatedUser.role,
-            company: updatedUser.company,
+            group: updatedUser.group,
             token
         }
     })
@@ -194,4 +231,4 @@ const deleteAccount = async(req, res, next) => {
     res.status(StatusCodes.OK).json({ message: "Account deleted!" });
 };
 
-module.exports = { signIn, signUp, requestPasswordReset, findByEmail, findByUserType, resetPassword, getUsers, findById, updateUser, deleteAccount }
+module.exports = { signIn, signUp, createAccountForUser, requestPasswordReset, findByEmail, findByUserType, resetPassword, getUsers, findById, updateUser, deleteAccount }
