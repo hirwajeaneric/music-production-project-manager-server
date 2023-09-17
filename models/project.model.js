@@ -109,6 +109,10 @@ const projectSchema = new mongoose.Schema({
         required: true,
         default: 0,
     },
+    currency: {
+        type: String,
+        required: true,
+    },
     paymentStrategy: {
         type: String, 
         required: true,
