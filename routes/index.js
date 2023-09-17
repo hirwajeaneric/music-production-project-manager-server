@@ -8,6 +8,7 @@ const email = require('./email.routes');
 const issue = require('./issue.routes');
 const sprint = require('./sprint.routes');
 const comment = require('./comment.routes');
+const payment = require('./payment.routes');
 
 router.use('/files', express.static('./files'));
 router.use('/materials', express.static('./materials'));
@@ -19,5 +20,6 @@ router.use('/material', material);
 router.use('/issue', issue);
 router.use('/sprint', sprint);
 router.use('/comment', comment);
+router.use('/payment', payment);
 
 module.exports = router; 

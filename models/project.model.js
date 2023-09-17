@@ -104,6 +104,40 @@ const projectSchema = new mongoose.Schema({
             message: '{VALUE} is not supported as a project status.'
         }
     },
+    price: {
+        type: Number,
+        required: true,
+        default: 0,
+    },
+    currency: {
+        type: String,
+        required: true,
+    },
+    paymentStrategy: {
+        type: String, 
+        required: true,
+        default: "Other",
+        enum: {
+            values: ["50% Before - 50% After","100% before", "100% after", "Other"],
+            message: '{VALUE} is not supported as a payment strategy.'
+        }
+    },
+    managerApproval: {
+        type: String, 
+        required: false,
+        enum: {
+            values: ["Approved","Rejected", "In discussions"],
+            message: '{VALUE} is not supported as a manager approval.'
+        }
+    },
+    managerApprovalDate: {
+        type: Date, 
+        required: false
+    },
+    managerComment: {
+        type: String, 
+        required: false
+    }
 }) 
 
 module.exports = mongoose.model('project', projectSchema);
