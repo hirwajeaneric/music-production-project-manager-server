@@ -32,7 +32,7 @@ const attachFile = async (req, res, next) => {
 
 const add = async (req, res) => {
     const payment = await paymentModel.create(req.body);
-    res.status(StatusCodes.CREATED).json({ message: 'Added', payment })
+    res.status(StatusCodes.CREATED).json({ message: 'New proof of payment uplaoded', payment })
 };
 
 const getAll = async(req, res) => {
