@@ -43,7 +43,7 @@ jspm_packages/
 
 # Backend images
 files/
-materials/
+payments/
 
 # TypeScript v1 declaration files
 typings/
